@@ -75,6 +75,9 @@ export default {
     },
   },
   setup(props) {
+
+    console.log('set up', toRefs(props));
+
     const { isSignIn } = toRefs(props);
     const Vue3GoogleOauth = inject("Vue3GoogleOauth");
 
