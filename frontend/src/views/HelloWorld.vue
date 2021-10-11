@@ -1,13 +1,14 @@
 <template>
-<div>
-  <h1>IsInit: {{ Vue3GoogleOauth.isInit }}</h1>
-  <h1>IsAuthorized: {{ Vue3GoogleOauth.isAuthorized }}</h1>
-  <h2 v-if="user">signed user: {{user}}</h2>
-  <button @click="handleClickSignIn" :disabled="!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized">sign in</button>
-  <button @click="handleClickGetAuthCode" :disabled="!Vue3GoogleOauth.isInit">get authCode</button>
-  <button @click="handleClickSignOut" :disabled="!Vue3GoogleOauth.isAuthorized">sign out</button>
-  <button @click="handleClickDisconnect" :disabled="!Vue3GoogleOauth.isAuthorized">disconnect</button>
-</div>
+  <div>
+    <h1>IsInit: {{ Vue3GoogleOauth.isInit }}</h1>
+    <h1>IsAuthorized: {{ Vue3GoogleOauth.isAuthorized }}</h1>
+    <h2 v-if="user">signed user: {{user}}</h2>
+    <button @click="handleClickSignIn" :disabled="!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized">sign in</button>
+    <button @click="handleClickGetAuthCode" :disabled="!Vue3GoogleOauth.isInit">get authCode</button>
+    <button @click="handleClickSignOut" :disabled="!Vue3GoogleOauth.isAuthorized">sign out</button>
+    <button @click="handleClickDisconnect" :disabled="!Vue3GoogleOauth.isAuthorized">disconnect</button>
+  <button @click="getEntries">Click Me</button>
+  </div>
 </template>
 
 <script>
@@ -26,11 +27,18 @@ export default {
   },
 
   mounted(){
-      console.log('mounte', this.$http)
-      this.$http.get("https://api.publicapis.org/entries");
+
+      this.getEntries();
   },
 
   methods: {
+    async getEntries(){
+
+      const test = await this.$http.get("https://api.publicapis.org/entries");
+
+      console.log("test", test);
+    },
+
     async handleClickSignIn(){
       try {
         const googleUser = await this.$gAuth.signIn();
@@ -46,6 +54,15 @@ export default {
           "getAuthResponse",
           this.$gAuth.instance.currentUser.get().getAuthResponse()
         );
+
+        var profile = this.$gAuth.instance.currentUser.get().getBasicProfile();
+          console.log('ID: ' + profile.getId());
+          console.log('Full Name: ' + profile.getName());
+          console.log('Given Name: ' + profile.getGivenName());
+          console.log('Family Name: ' + profile.getFamilyName());
+          console.log('Image URL: ' + profile.getImageUrl());
+          console.log('Email: ' + profile.getEmail());
+
 
       } catch (error) {
         //on fail do something
@@ -68,7 +85,6 @@ export default {
     async handleClickSignOut() {
       try {
         await this.$gAuth.signOut();
-        console.log("isAuthorized", this.Vue3GoogleOauth.isAuthorized);
         this.user = "";
       } catch (error) {
         console.error(error);
@@ -77,7 +93,7 @@ export default {
 
     handleClickDisconnect() {
       window.location.href = `https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=${window.location.href}`;
-    },
+    }
   },
   setup(props) {
 
@@ -92,7 +108,7 @@ export default {
       handleClickLogin,
       isSignIn,
     };
-  },
+  }
 };
 </script>
 
