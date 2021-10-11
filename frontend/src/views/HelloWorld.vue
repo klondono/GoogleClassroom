@@ -25,6 +25,11 @@ export default {
     }
   },
 
+  mounted(){
+      console.log('mounte', this.$http)
+      this.$http.get("https://api.publicapis.org/entries");
+  },
+
   methods: {
     async handleClickSignIn(){
       try {
