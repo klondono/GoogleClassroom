@@ -145,4 +145,8 @@ docs/_book
 # TODO: where does this rule come from?
 test/
 
+# ignore folder metadata generted by mac os
+.DS_Store
+
 # End of https://www.toptal.com/developers/gitignore/api/node,dotnetcore,vue
+
