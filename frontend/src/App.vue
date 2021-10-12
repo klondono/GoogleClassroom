@@ -10,28 +10,18 @@
 </template>
 
 <script>
-import { inject } from "vue";
 
 export default {
   name: 'App',
   components: {
   },
   mounted(){
+
+    console.log('mounted', this.Vue3GoogleOauth.isAuthorized);
+
   },
   setup() {
 
-    const Vue3GoogleOauth = inject("Vue3GoogleOauth");
-    return {
-      Vue3GoogleOauth
-    };
-  },
-  watch: {
-    'Vue3GoogleOauth.isAuthorized': function (n) {
-        if(n === true)
-          localStorage.setItem('user', JSON.stringify(this.$gAuth.instance.currentUser.get().getAuthResponse()));
-        else
-          localStorage.removeItem('user');
-    }
   }
 }
 </script>

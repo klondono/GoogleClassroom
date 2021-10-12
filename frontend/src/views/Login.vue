@@ -15,7 +15,7 @@
 import { inject, toRefs } from "vue";
 
 export default {
-  name: "HelloWorld",
+  name: "Login",
   props: {
     msg: String,
   },
@@ -28,7 +28,7 @@ export default {
 
   mounted(){
 
-      this.getEntries();
+      //this.getEntries();
   },
 
   methods: {
@@ -96,8 +96,6 @@ export default {
     }
   },
   setup(props) {
-
-    console.log('set up', toRefs(props));
 
     const { isSignIn } = toRefs(props);
     const Vue3GoogleOauth = inject("Vue3GoogleOauth");
