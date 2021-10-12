@@ -1,3 +1,4 @@
+
 import { createApp, inject } from 'vue';
 import App from './App.vue';
 import Axios from './axios';
@@ -5,7 +6,7 @@ import Store from './store';
 import gAuth from 'vue3-google-oauth2';
 import router from './router';
 
-//const { GOOGLE_CLIENT_ID } = process.env
+const { VUE_APP_GOOGLECLIENTID } = process.env
 
 const RootComponent = Object.assign({}, App, {
     setup() {
@@ -57,9 +58,9 @@ app.use(router);
 
 app.use(Store);
 
-console.log('env', process.env);
+console.log('env', process.env, VUE_APP_GOOGLECLIENTID);
 
-app.use(gAuth, { clientId: '983832817396-tumit47sfk7frtcn7o916bov1qovrb82.apps.googleusercontent.com', scope: 'email', prompt: 'consent', fetch_basic_profile: true });
+app.use(gAuth, { clientId: VUE_APP_GOOGLECLIENTID, scope: 'email', prompt: 'consent', fetch_basic_profile: true });
 
 app.config.globalProperties.$http = Axios;
 
