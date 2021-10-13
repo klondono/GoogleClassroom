@@ -3,7 +3,7 @@ import Axios from 'axios';
 var axios = Axios.create({});
 
 axios.interceptors.request.use(function (config) {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('user_session'));
     const token = user?.access_token;
 
     if(token)
