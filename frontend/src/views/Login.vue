@@ -28,13 +28,13 @@ export default {
 
   mounted(){
 
-      //this.getEntries();
+      this.getEntries();
   },
 
   methods: {
     async getEntries(){
 
-      const test = await this.$http.get("https://api.publicapis.org/entries");
+      const test = await this.$http.get("https://localhost:5001/WeatherForecast");
 
       console.log("test", test);
     },

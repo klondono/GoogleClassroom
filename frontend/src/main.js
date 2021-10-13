@@ -46,8 +46,7 @@ const RootComponent = Object.assign({}, App, {
                 localStorage.removeItem('user_session');
                 this.$store.commit('user/logout');
             }        
-        },
-        immediate: false
+        }
       }
   });
 
@@ -57,6 +56,7 @@ const app = createApp(RootComponent);
 app.use(router);
 
 app.use(Store);
+
 
 console.log('env', process.env, VUE_APP_GOOGLECLIENTID);
 
