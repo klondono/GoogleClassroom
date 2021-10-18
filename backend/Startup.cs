@@ -39,15 +39,15 @@ namespace backend
                     });
             });
 
-            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            // .AddGoogle(options =>
-            // {
-            //     IConfigurationSection googleAuthNSection =
-            //         Configuration.GetSection("Authentication:Google");
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddGoogle(options =>
+            {
+                IConfigurationSection googleAuthNSection =
+                    Configuration.GetSection("Authentication:Google");
 
-            //     options.ClientId = googleAuthNSection["ClientId"];
-            //     options.ClientSecret = googleAuthNSection["ClientSecret"];
-            // });;
+                options.ClientId = googleAuthNSection["ClientId"];
+                options.ClientSecret = googleAuthNSection["ClientSecret"];
+            });
             //.AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAdB2C"));
 
             services.AddControllers();

@@ -1,4 +1,4 @@
-const currentUser = JSON.parse(localStorage.getItem('user_session'));
+const currentUser = JSON.parse(localStorage.getItem('gauth'));
 const initialState = currentUser
   ? { loggedIn: true, user: currentUser }
   : { loggedIn: false, user: null };

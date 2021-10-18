@@ -3,11 +3,10 @@ import Axios from 'axios';
 var axios = Axios.create({});
 
 axios.interceptors.request.use(function (config) {
-    const user = JSON.parse(localStorage.getItem('user_session'));
-    const token = user?.access_token;
+    const authToken = localStorage.getItem('auth');
 
-    if(token)
-        config.headers.Authorization =  `Bearer ${token}`;
+    if(authToken)
+        config.headers.Authorization =  `Bearer ${authToken}`;
     else
         delete config.headers.Authorization;
 

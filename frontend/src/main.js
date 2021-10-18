@@ -39,11 +39,11 @@ const RootComponent = Object.assign({}, App, {
             if(n === true){
                 const currentSession = this.getCurrentSession();
                 const currentUser = this.getCurrentUser();
-                localStorage.setItem('user_session', JSON.stringify(currentSession));
+                localStorage.setItem('gauth', JSON.stringify(currentSession));
                 this.$store.commit('user/loginSuccess', Object.assign({}, currentSession, currentUser));
             }
             else {
-                localStorage.removeItem('user_session');
+                localStorage.removeItem('gauth');
                 this.$store.commit('user/logout');
             }        
         }

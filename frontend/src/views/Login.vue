@@ -34,9 +34,26 @@ export default {
   methods: {
     async getEntries(){
 
-      const test = await this.$http.get("https://localhost:5001/WeatherForecast");
 
-      console.log("test", test);
+//const test1 = await this.$http.get("https://localhost:5001/WeatherForecast");
+//console.log("test", test1);
+
+      const user = JSON.parse(localStorage.getItem('gauth'));
+      const token = user?.id_token;
+
+      //const authCode = await this.$gAuth.getAuthCode();
+      //console.log("authCode", authCode);
+
+      const authResponse = await this.$http.post("https://localhost:5001/User/authenticate",{
+        IdToken: token
+      });
+
+      if(authResponse?.statusText == "OK" && authResponse.data.authToken)
+        localStorage.setItem('auth', authResponse.data.authToken);
+      else
+        localStorage.removeItem('auth');
+
+      console.log("test", authResponse);
     },
 
     async handleClickSignIn(){

@@ -5,11 +5,13 @@ const routes = [
   {
     path: '/',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: { requiresAuth: false }
   },
   {
     path: '/about',
     name: 'About',
+    meta: { requiresAuth: true },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -23,17 +25,14 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-console.log(to.path, from.path)
 
-  const publicPages = ['/'];
-  const authRequired = !publicPages.includes(to.path);
-  const loggedIn = localStorage.getItem('user-session');
+    const loggedIn = localStorage.getItem('auth');
 
-  if (authRequired && !loggedIn) {
-    next('/');
-  } else {
-    next();
-  }
+      if (to.meta.requiresAuth && !loggedIn) {
+        next('/');
+      } else {
+        next();
+      }
 });
 
 export default router
