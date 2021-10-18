@@ -7,7 +7,7 @@
     <button @click="handleClickGetAuthCode" :disabled="!Vue3GoogleOauth.isInit">get authCode</button>
     <button @click="handleClickSignOut" :disabled="!Vue3GoogleOauth.isAuthorized">sign out</button>
     <button @click="handleClickDisconnect" :disabled="!Vue3GoogleOauth.isAuthorized">disconnect</button>
-  <button @click="getEntries">Click Me</button>
+  <button @click="getWeather">Click Me</button>
   </div>
 </template>
 
@@ -34,15 +34,8 @@ export default {
   methods: {
     async getEntries(){
 
-
-//const test1 = await this.$http.get("https://localhost:5001/WeatherForecast");
-//console.log("test", test1);
-
       const user = JSON.parse(localStorage.getItem('gauth'));
       const token = user?.id_token;
-
-      //const authCode = await this.$gAuth.getAuthCode();
-      //console.log("authCode", authCode);
 
       const authResponse = await this.$http.post("https://localhost:5001/User/authenticate",{
         IdToken: token
@@ -54,6 +47,11 @@ export default {
         localStorage.removeItem('auth');
 
       console.log("test", authResponse);
+    },
+
+    async getWeather(){
+      const test1 = await this.$http.get("https://localhost:5001/WeatherForecast");
+      console.log("test", test1);
     },
 
     async handleClickSignIn(){
