@@ -8,6 +8,7 @@
     <button @click="handleClickSignOut" :disabled="!Vue3GoogleOauth.isAuthorized">sign out</button>
     <button @click="handleClickDisconnect" :disabled="!Vue3GoogleOauth.isAuthorized">disconnect</button>
   <button @click="getWeather">Click Me</button>
+  <button @click="newAuthenticate">Authenticate</button>
   </div>
 </template>
 
@@ -32,6 +33,13 @@ export default {
   },
 
   methods: {
+
+   async newAuthenticate(){
+        let p = { Username: "test", Password: "test" };
+        const authResponse = await this.$http.post("https://localhost:5001/Users/authenticate", p);
+        console.log('auth', authResponse);
+    },
+
     async getEntries(){
 
       const user = JSON.parse(localStorage.getItem('gauth'));

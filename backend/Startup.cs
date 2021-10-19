@@ -1,12 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,12 +11,14 @@ using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
+using WebApi.Helpers;
+using WebApi.Services;
 
 namespace backend
 {
     public class Startup
     {
-                // This class is needed to inject the JWT validation options including the public key
+        // This class is needed to inject the JWT validation options including the public key
         public class ConfigureJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptions>
         {
             public void Configure(string name, JwtBearerOptions options)
@@ -50,6 +47,7 @@ namespace backend
                 throw new NotImplementedException();
             }
         }
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -83,6 +81,12 @@ namespace backend
             // This is the tricky part to inject the configuration so the public key is used to validate the JWT
             services.AddTransient<IConfigureOptions<JwtBearerOptions>, ConfigureJwtBearerOptions>();
 
+            // configure strongly typed settings object
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            // configure DI for application services
+            services.AddScoped<IUserService, UserService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend", Version = "v1" });
@@ -104,6 +108,9 @@ namespace backend
             app.UseRouting();
 
             app.UseCors();
+
+            //custom jwt auth middleware
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseAuthentication();
             app.UseAuthorization();

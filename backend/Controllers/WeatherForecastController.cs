@@ -8,7 +8,8 @@ using Microsoft.Extensions.Logging;
 
 namespace backend.Controllers
 {
-    [Authorize]
+    //original authorize attribute not custom
+    [Microsoft.AspNetCore.Authorization.Authorize]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
