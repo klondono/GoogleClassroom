@@ -4,10 +4,10 @@ namespace WebApi.Models
 {
     public class AuthenticateRequest
     {
-        [Required]
+        //[Required]
         public string Username { get; set; }
-        [Required]
+        //[Required]
         public string Password { get; set; }
-        public string Id_Token { get; set; }
+        public string IdToken { get; set; }
     }
 }

@@ -9,6 +9,9 @@ using System.Text;
 using WebApi.Entities;
 using WebApi.Helpers;
 using WebApi.Models;
+using System.Security.Cryptography;
+using Google.Apis.Auth;
+using Microsoft.Extensions.Configuration;
 
 namespace WebApi.Services
 {
@@ -28,21 +31,28 @@ namespace WebApi.Services
         };
 
         private readonly AppSettings _appSettings;
+        public IConfiguration _configuration { get; }
 
-        public UserService(IOptions<AppSettings> appSettings)
+        public UserService(IOptions<AppSettings> appSettings, IConfiguration configuration)
         {
             _appSettings = appSettings.Value;
+            _configuration = configuration;
         }
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
+            User user;
+            //if request includes id token, validate via google
+            if(!string.IsNullOrWhiteSpace(model.IdToken))
+                user = authenticateGoogleIdToken(model.IdToken);
+            else
+                user = _users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
 
             // return null if user not found
             if (user == null) return null;
 
             // authentication successful so generate jwt token
-            var token = generateJwtToken(user);
+            var token = generateJwtAuthToken(user);
 
             return new AuthenticateResponse(user, token);
         }
@@ -58,20 +68,48 @@ namespace WebApi.Services
         }
 
         // helper methods
+        private string generateJwtAuthToken(User user){
 
-        private string generateJwtToken(User user)
-        {
-            // generate token that is valid for 7 days
+            RSA privateRSA = RSA.Create();
+            privateRSA.ImportRSAPrivateKey(Convert.FromBase64String(_appSettings.JwtPrivateSigningKey), out _);
+            var _key = new RsaSecurityKey(privateRSA);
+
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
+                Audience = "myApi",
+                Issuer = "AuthService",
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    //new Claim(ClaimTypes.Sid, user.Id.ToString())
+                    new Claim("id", user.Id.ToString()),
+                    new Claim("firstName", user.FirstName),
+                    new Claim("lastName", user.LastName),
+                    new Claim("username", user.Username)
+                }),
+                //Expires = DateTime.UtcNow.AddMinutes(60),
                 Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(_key, SecurityAlgorithms.RsaSha256)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        private User authenticateGoogleIdToken(string idToken){
+
+            GoogleJsonWebSignature.ValidationSettings settings = new GoogleJsonWebSignature.ValidationSettings();
+
+            IConfigurationSection googleAuthNSection =
+                    _configuration.GetSection("Authentication:Google");
+
+            string googleClientId = googleAuthNSection["ClientId"];
+
+            // Change this to your google client ID
+            settings.Audience = new List<string>() { googleClientId };
+            
+            GoogleJsonWebSignature.Payload payload = GoogleJsonWebSignature.ValidateAsync(idToken, settings).Result;
+
+            return new User() { Id = -1, FirstName = payload.GivenName, LastName = payload.FamilyName, Username = payload.Email };
         }
     }
 }

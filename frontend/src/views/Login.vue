@@ -7,8 +7,9 @@
     <button @click="handleClickGetAuthCode" :disabled="!Vue3GoogleOauth.isInit">get authCode</button>
     <button @click="handleClickSignOut" :disabled="!Vue3GoogleOauth.isAuthorized">sign out</button>
     <button @click="handleClickDisconnect" :disabled="!Vue3GoogleOauth.isAuthorized">disconnect</button>
-  <button @click="getWeather">Click Me</button>
-  <button @click="newAuthenticate">Authenticate</button>
+  <button @click="getWeather">Get Weather</button>
+  <button @click="newAuthenticate">Authenticate Username and Pwd</button>
+  <button @click="Authenticate">Authenticate With Google Token</button>
   </div>
 </template>
 
@@ -40,21 +41,19 @@ export default {
         console.log('auth', authResponse);
     },
 
-    async getEntries(){
+    async Authenticate(){
 
       const user = JSON.parse(localStorage.getItem('gauth'));
       const token = user?.id_token;
 
-      const authResponse = await this.$http.post("https://localhost:5001/User/authenticate",{
-        IdToken: token
+      const authResponse = await this.$http.post("https://localhost:5001/Users/authenticate",{
+          IdToken: token
       });
 
-      if(authResponse?.statusText == "OK" && authResponse.data.authToken)
-        localStorage.setItem('auth', authResponse.data.authToken);
+      if(authResponse?.statusText == "OK" && authResponse.data.token)
+        localStorage.setItem('auth', authResponse.data.token);
       else
         localStorage.removeItem('auth');
-
-      console.log("test", authResponse);
     },
 
     async getWeather(){
