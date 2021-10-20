@@ -29,8 +29,6 @@ export default {
   },
 
   mounted(){
-
-      this.getEntries();
   },
 
   methods: {
