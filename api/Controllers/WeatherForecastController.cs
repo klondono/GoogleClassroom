@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 //using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Models;
 
-namespace backend.Controllers
+namespace Api.Controllers
 {
     //original authorize attribute not custom
     //[Microsoft.AspNetCore.Authorization.Authorize]

@@ -1,6 +1,6 @@
 using System;
 
-namespace backend
+namespace Models
 {
     public class WeatherForecast
     {

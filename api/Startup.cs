@@ -11,10 +11,11 @@ using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
-using WebApi.Helpers;
-using WebApi.Services;
+using Models;
+using BackendService;
+using Api.Infrastructure.Authorization;
 
-namespace backend
+namespace Api
 {
     public class Startup
     {        

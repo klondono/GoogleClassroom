@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Models;
-using WebApi.Services;
+using Models;
+using BackendService;
 
-namespace WebApi.Controllers
+namespace Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -16,7 +16,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("authenticate")]
-        public IActionResult Authenticate(AuthenticateRequest model)
+        public IActionResult Authenticate(AuthRequest model)
         {
             var response = _userService.Authenticate(model);
 

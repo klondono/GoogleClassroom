@@ -6,11 +6,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebApi.Services;
-using WebApi.Entities;
+using Models;
+using BackendService;
 using System.Security.Cryptography;
 
-namespace WebApi.Helpers
+namespace Api.Infrastructure.Authorization
 {
     public class JwtMiddleware
     {
