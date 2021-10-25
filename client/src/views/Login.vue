@@ -3,10 +3,11 @@
     <h1>IsInit: {{ Vue3GoogleOauth.isInit }}</h1>
     <h1>IsAuthorized: {{ Vue3GoogleOauth.isAuthorized }}</h1>
     <h2 v-if="user">signed user: {{user}}</h2>
-    <button @click="handleClickSignIn" :disabled="!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized">sign in</button>
-    <button @click="handleClickGetAuthCode" :disabled="!Vue3GoogleOauth.isInit">get authCode</button>
-    <button @click="handleClickSignOut" :disabled="!Vue3GoogleOauth.isAuthorized">sign out</button>
-    <button @click="handleClickDisconnect" :disabled="!Vue3GoogleOauth.isAuthorized">disconnect</button>
+  <button @click="handleClickSignIn" :disabled="!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized">sign in</button>
+  <button @click="handleClickGetAuthCode" :disabled="!Vue3GoogleOauth.isInit">get authCode</button>
+  <button @click="handleClickSignOut" :disabled="!Vue3GoogleOauth.isAuthorized">sign out</button>
+  <button @click="handleClickDisconnect" :disabled="!Vue3GoogleOauth.isAuthorized">disconnect</button>
+  <button @click="goToGoogleClassroom" :disabled="!Vue3GoogleOauth.isAuthorized">Google Classroom</button>
   <button @click="getWeather">Get Weather</button>
   <button @click="newAuthenticate">Authenticate Username and Pwd</button>
   <button @click="Authenticate">Authenticate With Google Token</button>
@@ -32,6 +33,11 @@ export default {
   },
 
   methods: {
+  goToGoogleClassroom(){
+
+    this.$router.push({ name: 'GoogleClassroom' });
+
+  },
 
    async newAuthenticate(){
         let p = { Username: "test", Password: "test" };

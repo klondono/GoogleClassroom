@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Login from '../views/Login.vue';
+import GoogleClassroom from '../views/GoogleClassroom.vue';
 
 const routes = [
   {
@@ -7,6 +8,12 @@ const routes = [
     name: 'Login',
     component: Login,
     meta: { requiresAuth: false }
+  },
+  {
+    path: '/GoogleClassroom',
+    name: 'GoogleClassroom',
+    component: GoogleClassroom,
+    meta: { requiresAuth: true }
   },
   {
     path: '/about',

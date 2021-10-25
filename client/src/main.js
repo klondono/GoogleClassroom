@@ -60,7 +60,9 @@ app.use(Store);
 
 console.log('env', process.env, VUE_APP_GOOGLECLIENTID);
 
-app.use(gAuth, { clientId: VUE_APP_GOOGLECLIENTID, scope: 'email', prompt: 'consent', fetch_basic_profile: true });
+const scopes = 'https://www.googleapis.com/auth/classroom.courses https://www.googleapis.com/auth/classroom.courseworkmaterials https://www.googleapis.com/auth/classroom.topics https://www.googleapis.com/auth/classroom.coursework.students email';
+
+app.use(gAuth, { clientId: VUE_APP_GOOGLECLIENTID, scope: scopes, prompt: 'consent', fetch_basic_profile: true });
 
 app.config.globalProperties.$http = Axios;
 
