@@ -1,17 +1,59 @@
 <template>
-  <div>
-    <h1>IsInit: {{ Vue3GoogleOauth.isInit }}</h1>
-    <h1>IsAuthorized: {{ Vue3GoogleOauth.isAuthorized }}</h1>
-    <h2 v-if="user">signed user: {{user}}</h2>
-  <button @click="handleClickSignIn" :disabled="!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized">sign in</button>
-  <button @click="handleClickGetAuthCode" :disabled="!Vue3GoogleOauth.isInit">get authCode</button>
-  <button @click="handleClickSignOut" :disabled="!Vue3GoogleOauth.isAuthorized">sign out</button>
-  <button @click="handleClickDisconnect" :disabled="!Vue3GoogleOauth.isAuthorized">disconnect</button>
-  <button @click="goToGoogleClassroom" :disabled="!Vue3GoogleOauth.isAuthorized">Google Classroom</button>
-  <button @click="getWeather">Get Weather</button>
-  <button @click="newAuthenticate">Authenticate Username and Pwd</button>
-  <button @click="Authenticate">Authenticate With Google Token</button>
-  </div>
+<div class="window-height window-width row justify-center items-center" 
+style="background: linear-gradient(#fff, #fff);">
+
+<div class="q-pa-lg">
+ <div class="column q-pa-lg">
+      <div class="row">
+        <q-card square style="width:400px;height:500px;">
+          <q-card-section class="text-center">
+            <h4 style="color:#333;" class="text-h5 q-my-md">Google Classroom Helper</h4>
+            <!-- <div class="absolute-bottom-right q-pr-md" style="transform: translateY(50%);">
+              <q-btn fab icon="add" color="purple-4" />
+            </div> -->
+          </q-card-section>
+          <q-card-section>
+            <q-form class="q-px-sm q-pt-xl">
+              <q-input square clearable v-model="email" type="email" label="Email">
+                <template v-slot:prepend>
+                  <q-icon name="email" />
+                </template>
+              </q-input>
+              <q-input square clearable v-model="password" type="password" label="Password">
+                <template v-slot:prepend>
+                  <q-icon name="lock" />
+                </template>
+              </q-input>
+            </q-form>
+          </q-card-section>
+            <!-- <q-btn round color="red-8">
+                <q-icon name="fab fa-google" size="1.2rem" />
+              </q-btn> -->
+          <!-- <q-card-section>
+            <div class="text-center q-pa-md q-gutter-md">
+              <q-btn round color="indigo-7">
+                <q-icon name="fab fa-facebook-f" size="1.2rem" />
+              </q-btn>
+
+              <q-btn round color="light-blue-5">
+                <q-icon name="fab fa-twitter" size="1.2rem" />
+              </q-btn>
+            </div>
+          </q-card-section> -->
+          <q-card-actions class="q-px-lg">
+            <q-btn @click.prevent="handleClickSignIn" color="primary" unelevated size="lg" class="full-width text-white" label="Sign In" />
+          </q-card-actions>
+          <!-- <q-card-section class="text-center q-pa-sm">
+            <p class="text-grey-6">Forgot your password?</p>
+          </q-card-section> -->
+        </q-card>
+      </div>
+    </div>
+
+</div>
+</div>
+
+
 </template>
 
 <script>
@@ -26,6 +68,8 @@ export default {
   data(){
     return {
       user: '',
+      email: 'klondono1016@gmail.com',
+      password: ''
     }
   },
 
@@ -88,7 +132,7 @@ export default {
           console.log('Family Name: ' + profile.getFamilyName());
           console.log('Image URL: ' + profile.getImageUrl());
           console.log('Email: ' + profile.getEmail());
-
+        this.goToGoogleClassroom();
 
       } catch (error) {
         //on fail do something
