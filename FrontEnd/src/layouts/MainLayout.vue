@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header elevated class="header">
       <q-toolbar>
         <q-btn
           flat
@@ -50,46 +50,28 @@ import EssentialLink from 'components/EssentialLink.vue'
 
 const linksList = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
+    title: 'Courses',
+    caption: 'View, add and edit courses',
     icon: 'school',
-    link: 'https://quasar.dev'
+    routeName: 'Classroom'
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
+    title: 'Topics',
+    caption: 'View, add and edit topics',
     icon: 'code',
-    link: 'https://github.com/quasarframework'
+    routeName: 'Topics'
   },
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
+    title: 'Assignments',
+    caption: 'View, add and edit assignments',
     icon: 'chat',
-    link: 'https://chat.quasar.dev'
+    routeName: 'Assignments'
   },
   {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
+    title: 'Students',
+    caption: 'View, add and edit students',
     icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
+    routeName: 'Students'
   }
 ];
 
@@ -115,3 +97,8 @@ export default defineComponent({
   }
 })
 </script>
+<style lang="css" scoped>
+.header{
+  backdrop-filter: blur(7px);
+}
+</style>

@@ -7,21 +7,21 @@ import axios from 'axios'
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-var http = axios.create({});
+const http = axios.create({});
 
-http.interceptors.request.use(function (config) {
+const googleApi = axios.create({ baseURL: 'https://classroom.googleapis.com/v1/' })
+
+//add google auth token to google api requests
+googleApi.interceptors.request.use(function (config) {
   
-  const authToken = localStorage.getItem(process.env.AUTH_TOKEN);
-
-  if(authToken)
-      config.headers.Authorization =  `Bearer ${authToken}`;
+  const googleAuth = JSON.parse(localStorage.getItem(process.env.AUTH_TOKEN));
+  if(googleAuth)
+      config.headers.Authorization =  `Bearer ${googleAuth.access_token}`;
   else
       delete config.headers.Authorization;
 
   return config;
 });
-
-const api = axios.create({ baseURL: 'https://api.example.com' })
 
 export default boot(({ app }) => {
   
@@ -30,11 +30,11 @@ export default boot(({ app }) => {
   // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
   //       so you won't necessarily have to import axios in each vue file
 
-  app.config.globalProperties.$api = api
+  app.config.globalProperties.$googleApi = googleApi;
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
 })
 
-export { api }
+export { googleApi }
 
 

@@ -24,7 +24,8 @@ module.exports = configure(function (ctx) {
     boot: [
       'router',
       'axios',
-      'gauth'
+      'gauth',
+      'globalMixins'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css

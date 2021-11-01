@@ -3,7 +3,7 @@
     clickable
     tag="a"
     target="_blank"
-    :href="link"
+    @click.prevent="goTo(routeName)"
   >
     <q-item-section
       v-if="icon"
@@ -37,14 +37,19 @@ export default defineComponent({
       default: ''
     },
 
-    link: {
+    routeName: {
       type: String,
-      default: '#'
+      default: 'Courses'
     },
 
     icon: {
       type: String,
       default: ''
+    }
+  },
+  methods:{
+    goTo(routeName){
+      this.$router.push(routeName);
     }
   }
 })

@@ -11,7 +11,10 @@ const routes = [
     path: '/Classroom',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') }
+      { path: '', component: () => import('pages/Courses/Courses.vue') },
+      { name: 'Course', path: '/Course', component: () => import('pages/Courses/Course.vue') },
+      { name: 'Assignments', path: '/Assignments', component: () => import('pages/Assignments/Assignments.vue') },
+      { name: 'Topics', path: '/Topics', component: () => import('pages/Topics/Topics.vue') }
     ],
     meta: { requiresAuth: true }
   },
